@@ -1,46 +1,68 @@
 package com.mymart.model;
 import java.util.Objects;
 public class Product {
-	int productID;
-	String productName;
-	double productPrice;
+	private int productID;
+	private String productName;
+	private double productPrice;
 	
-	public void setProductId(int id) {
-		productID=id;
-		
-	}
-	public void setProductName(String name) {
-		productName=name;
-	}
-	public void setProductPrice(double price) {
-		productPrice=price;
-	}
 	
-	public int getProductId() {
+
+	public Product(int pID, String pName, double pPrice) {
+		super();
+		this.productID = pID;
+		this.productName = pName;
+		this.productPrice = pPrice;
+	}
+
+	public int getProductID() {
 		return productID;
 	}
+
+	public void setProductID(int pID) {
+		this.productID = pID;
+	}
+
 	public String getProductName() {
 		return productName;
 	}
+
+	public void setProductName(String pName) {
+		this.productName = pName;
+	}
+
 	public double getProductPrice() {
 		return productPrice;
 	}
-	public String toString() {
-		return productID+" "+productName+" "+productPrice;
-	}
-	public double equals(int productID, String productName, double productPrice) {
-		boolean result;
-		if(productID == 0 && productName==null && productPrice==0)
-			result= false;
-		else
-			result=true;
 
-		return productID;
-		
+	public void setProductPrice(double pPrice) {
+		this.productPrice = pPrice;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productID=" + productID + ", productName=" + productName + ", productPrice=" + productPrice
+				+ "]";
+	}
+
+	@Override
 	public int hashCode() {
-		return Objects.hash(productID,productName);
+		return Objects.hash(productID, productName, productPrice);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return productID == other.productID && Objects.equals(productName, other.productName)
+				&& Double.doubleToLongBits(productPrice) == Double.doubleToLongBits(other.productPrice);
+	}
+
+
 }
 	
 

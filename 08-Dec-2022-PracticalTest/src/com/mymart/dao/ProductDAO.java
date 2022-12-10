@@ -1,16 +1,19 @@
 package com.mymart.dao;
 import java.util.LinkedList;
-import com.mymart.model.*;
+
+import com.mymart.model.Product;
+
 public class ProductDAO {
+	private static LinkedList<Product> list=new LinkedList<>();
 	
-	
-	public static void addProduct(int id, String name, double price) {
-		LinkedList<Product>linkedList=new LinkedList<>();
-		linkedList.add(new Product());
+	public boolean addProduct(Product product) {
+		boolean addStatus=false;
+		list.add(product);
+		addStatus=true;
+		return addStatus;
 	}
-	public static String getAllProducts(int id, String name, double price) {
-		System.out.println("The Products Details are : " id+" "+name+" "+price);
-		
+	public LinkedList<Product> getAllProducts(){
+		return list;
 	}
 
 }

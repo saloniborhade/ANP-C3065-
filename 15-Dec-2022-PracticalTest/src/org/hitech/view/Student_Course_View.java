@@ -4,84 +4,74 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.hitech.model.Student;
 import org.hitech.model.Course;
 import org.hitech.service.Student_Course_Service;
 
 public class Student_Course_View {
-	private Student_Course_Service scService=new Student_Course_Service();
-	
-	public void addStudentCourseDetails() {
-		Scanner sc=new Scanner(System.in);
-		
-		int sID;
-		System.out.println("Enter the Student ID : ");
-		sID=sc.nextInt();
-		
-		String sName;
-		System.out.println("Enter the Student Name : ");
-		sName=sc.next();
-		
-		String qualification;
-		System.out.println("Enter the Student Qualification : ");
-		qualification=sc.next();
-		
-		
-		int cID;
-		System.out.println("Enter the Course ID : ");
-		cID=sc.nextInt();
-		
-		String cName;
-		System.out.println("Enter the Course Name : ");
-		cName=sc.next();
-		
-		double price;
-		System.out.println("Enter the Course Price : ");
-		price=sc.nextInt();
-		
-		
-		
-		Student s=new Student(sID, sName, qualification);
-		Course c=new Course(cID, cName, price);
-		scService.addStudentCourseDetails(s, c);
-		scService.deleteStudentCourseDetails(s);
-		}
-	
-	
-	
-	
-	public void displayAllStudentCourseDetails() {
-		HashMap<Student, Course> hash=scService.getStudentCourseDetails();
-		
-		Set<Student> set=hash.keySet();
-		Collection<Course> sets=hash.values();
-		
-		for(Student s:set){
-			System.out.println("Student Details : ");
-			System.out.println("StudentID:"+s.getStudentID());
-			System.out.println("Student Name:"+s.getStudentName());
-			System.out.println("Student Qualification:"+s.getQualification());
-		}
-		for(Course c:sets) {
-			System.out.println("Course Details : ");
-			System.out.println("Course:"+c.getCourseID());
-			System.out.println("Course Name:"+c.getCourseName());
-			System.out.println("Course Price:"+c.getPrice());
-		}
-		
-}
-	public void deleteStudentCourseDetails() {
-		HashMap<Student,Course> hash=scService.getStudentCourseDetails();
 
-	}
 	public static void main(String[] args) {
-		Student_Course_View scView=new Student_Course_View();
-		scView.addStudentCourseDetails();
-		scView.deleteStudentCourseDetails();
-		scView.displayAllStudentCourseDetails();
+	Student_Course_Service sc = new Student_Course_Service(); 
+	Scanner s = new Scanner(System.in);
+	
+	
+	int choice;
+	
+	do {
+		System.out.println("1. Add Values");
+		System.out.println("2. View Values");
+		System.out.println("3. Delete Values");
+		System.out.println("0. Exit");
 		
-
+		System.out.println("Enter Your Choice");
+		choice = s.nextInt();
+		
+		switch(choice)
+		{
+		case 1:System.out.println("Enter ID");
+				int id = s.nextInt();
+				System.out.println("Enter Name");
+				String name = s.next();
+				System.out.println("Enter Qualification");
+				String qualification = s.next();
+				
+				System.out.println("Enter Course ID");
+				int cId = s.nextInt();
+				System.out.println("Enter Course Name");
+				String cName = s.next();
+				System.out.println("Enter Course Price");
+				double cPrice = s.nextDouble();
+				
+				Student st = new Student(id,name,qualification);
+				Course cs = new Course(cId,cName,cPrice);
+				sc.addStudentCourseDetails(st, cs);
+				break;
+				
+		case 2:HashMap<Student, Course> hashMap = sc.getStudentCourseDetails();
+				
+				for(Map.Entry<Student, Course> entry : hashMap.entrySet())
+					System.out.println(entry.getKey() + " " + entry.getValue());
+				break;
+				
+		case 3:System.out.println("Enter Student ID");
+				int dId = s.nextInt();
+				System.out.println("Enter Student Name");
+				String dName = s.next();
+				System.out.println("Enter Student Qualification");
+				String dQualification = s.next();
+				
+				Student sm = new Student(dId,dName,dQualification);
+				
+				sc.deleteStudentCourseDetails(sm);
+				break;
+		}
+	}while(choice != 0);
 	}
-
 }
+
+
+
+
+

@@ -1,0 +1,200 @@
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 22
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show database student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database student' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| student            |
+| sys                |
++--------------------+
+5 rows in set (0.21 sec)
+
+mysql> use database student;
+ERROR 1049 (42000): Unknown database 'database'
+mysql> use student;
+Database changed
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(44) | NO   |     | NULL    |       |
+| city  | varchar(33) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> select * from student;
++----+--------+--------+
+| id | name   | city   |
++----+--------+--------+
+|  1 | Sejal  | Junnar |
+|  2 | Tejal  | Pune   |
+|  3 | Sayali | Mumbai |
+|  4 | Om     | Junnar |
++----+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student add age varchar(10);
+Query OK, 0 rows affected (0.66 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(44) | NO   |     | NULL    |       |
+| city  | varchar(33) | NO   |     | NULL    |       |
+| age   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.11 sec)
+
+mysql> alter table student modify cloumn city varchar(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'city varchar(10)' at line 1
+mysql> alter table student modify cloumn city varchar(30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'city varchar(30)' at line 1
+mysql> alter table student modify column city varchar(30);
+Query OK, 4 rows affected (0.94 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(44) | NO   |     | NULL    |       |
+| city  | varchar(30) | YES  |     | NULL    |       |
+| age   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.09 sec)
+
+mysql> select * from student;
++----+--------+--------+------+
+| id | name   | city   | age  |
++----+--------+--------+------+
+|  1 | Sejal  | Junnar | NULL |
+|  2 | Tejal  | Pune   | NULL |
+|  3 | Sayali | Mumbai | NULL |
+|  4 | Om     | Junnar | NULL |
++----+--------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> alter table student drop column age;
+Query OK, 0 rows affected (0.23 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(44) | NO   |     | NULL    |       |
+| city  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select count(id), city from student group by city;
++-----------+--------+
+| count(id) | city   |
++-----------+--------+
+|         2 | Junnar |
+|         1 | Pune   |
+|         1 | Mumbai |
++-----------+--------+
+3 rows in set (0.14 sec)
+
+mysql> select count(id), name from student group by name;
++-----------+--------+
+| count(id) | name   |
++-----------+--------+
+|         1 | Sejal  |
+|         1 | Tejal  |
+|         1 | Sayali |
+|         1 | Om     |
++-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select count(id),city from student group by city having count(id)>3;
+Empty set (0.10 sec)
+
+mysql> select count(id),city from student group by city having count(id)<3;
++-----------+--------+
+| count(id) | city   |
++-----------+--------+
+|         2 | Junnar |
+|         1 | Pune   |
+|         1 | Mumbai |
++-----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student;
++----+--------+--------+
+| id | name   | city   |
++----+--------+--------+
+|  1 | Sejal  | Junnar |
+|  2 | Tejal  | Pune   |
+|  3 | Sayali | Mumbai |
+|  4 | Om     | Junnar |
++----+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student where name='Om';
++----+------+--------+
+| id | name | city   |
++----+------+--------+
+|  4 | Om   | Junnar |
++----+------+--------+
+1 row in set (0.10 sec)
+
+mysql> select * from student;
++----+--------+--------+
+| id | name   | city   |
++----+--------+--------+
+|  1 | Sejal  | Junnar |
+|  2 | Tejal  | Pune   |
+|  3 | Sayali | Mumbai |
+|  4 | Om     | Junnar |
++----+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select name,city from student where (Tejal) in ('Junnar');
+ERROR 1054 (42S22): Unknown column 'Tejal' in 'where clause'
+mysql> select name,city from student where (name) in ('Junnar');
+Empty set (0.00 sec)
+
+mysql> select name,city from student where (name) in ('Sayali');
++--------+--------+
+| name   | city   |
++--------+--------+
+| Sayali | Mumbai |
++--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select name,city,id from student where (name) in ('Sayali','Junnar');
++--------+--------+----+
+| name   | city   | id |
++--------+--------+----+
+| Sayali | Mumbai |  3 |
++--------+--------+----+
+1 row in set (0.00 sec)
+
+mysql> select sejal,om from name where city in ('Junnar','Pune');
+ERROR 1146 (42S02): Table 'student.name' doesn't exist
+mysql>

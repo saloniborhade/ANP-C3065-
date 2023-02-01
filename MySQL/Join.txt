@@ -1,0 +1,171 @@
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use student;
+Database changed
+mysql> create table studentdb(
+    -> s_id int not null,
+    -> s_name varchar(30) not null,
+    -> course_name varchar(30) not null,
+    -> primary key(s_id)
+    -> );
+Query OK, 0 rows affected (1.33 sec)
+
+mysql> create table officersdb(
+    -> o_id int not null,
+    -> o_name varchar(30) not null,
+    -> address varchar(30) not null,
+    -> primary key(o_id)
+    -> );
+Query OK, 0 rows affected (0.82 sec)
+
+mysql> insert into studentdb values(1, 'sejal','Engineering');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into studentdb values(2, 'Tejal','B-Pharm');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into studentdb values(3, 'Sayali','D-Pharm');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into studentdb values(4, 'Om','CA');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into officersdb values(1, 'Yash','Java');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into officersdb values(2, 'Shruti','Java');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into officersdb values(3, 'Sakshi','Java');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from studentdb;
++------+--------+-------------+
+| s_id | s_name | course_name |
++------+--------+-------------+
+|    1 | sejal  | Engineering |
+|    2 | Tejal  | B-Pharm     |
+|    3 | Sayali | D-Pharm     |
+|    4 | Om     | CA          |
++------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from officersdb;
++------+--------+---------+
+| o_id | o_name | address |
++------+--------+---------+
+|    1 | Yash   | Java    |
+|    2 | Shruti | Java    |
+|    3 | Sakshi | Java    |
++------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select officersdb.o_name,officersdb.address,studentdb.s_name,studentdb.course_name
+    -> from officersdb
+    -> INNER JOIN studentdb
+    -> ON officersdb.o_id=studentdb.s_id;
++--------+---------+--------+-------------+
+| o_name | address | s_name | course_name |
++--------+---------+--------+-------------+
+| Yash   | Java    | sejal  | Engineering |
+| Shruti | Java    | Tejal  | B-Pharm     |
+| Sakshi | Java    | Sayali | D-Pharm     |
++--------+---------+--------+-------------+
+3 rows in set (0.14 sec)
+
+mysql> select officers.of_name,students.s_name
+    ->     ->     from officers
+    ->     ->    LEFT JOIN students
+    ->
+    -> select * from studentdb;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from officers
+    ->    LEFT JOIN students
+
+select * from studentdb' at line 2
+mysql> select officersdb.o_name,studentdb.s_name
+    -> from officersdb
+    -> LEFT JOIN studentdb
+    -> ON officersdb.o_id=studentdb.s_id;
++--------+--------+
+| o_name | s_name |
++--------+--------+
+| Yash   | sejal  |
+| Shruti | Tejal  |
+| Sakshi | Sayali |
++--------+--------+
+3 rows in set (0.02 sec)
+
+mysql> select officerdb.address,studentdb.course_name
+    -> from officersdb
+    -> RIGHT JOIN studentdb
+    -> ON officersdb.o_id=studentdb.s_id;
+ERROR 1054 (42S22): Unknown column 'officerdb.address' in 'field list'
+mysql> select officerdb.address,studentdb.course_name
+    -> from officersdb
+    -> RIGHT JOIN studentdb
+    -> ON officersdb.o_id=studentdb.s_id;
+ERROR 1054 (42S22): Unknown column 'officerdb.address' in 'field list'
+mysql> select officersdb.address,studentdb.course_name
+    -> from officersdb
+    -> RIGHT JOIN studentdb
+    -> ON officersdb.o_id=studentdb.s_id;
++---------+-------------+
+| address | course_name |
++---------+-------------+
+| Java    | Engineering |
+| Java    | B-Pharm     |
+| Java    | D-Pharm     |
+| NULL    | CA          |
++---------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from officersdb full join studentdb;
++------+--------+---------+------+--------+-------------+
+| o_id | o_name | address | s_id | s_name | course_name |
++------+--------+---------+------+--------+-------------+
+|    3 | Sakshi | Java    |    1 | sejal  | Engineering |
+|    2 | Shruti | Java    |    1 | sejal  | Engineering |
+|    1 | Yash   | Java    |    1 | sejal  | Engineering |
+|    3 | Sakshi | Java    |    2 | Tejal  | B-Pharm     |
+|    2 | Shruti | Java    |    2 | Tejal  | B-Pharm     |
+|    1 | Yash   | Java    |    2 | Tejal  | B-Pharm     |
+|    3 | Sakshi | Java    |    3 | Sayali | D-Pharm     |
+|    2 | Shruti | Java    |    3 | Sayali | D-Pharm     |
+|    1 | Yash   | Java    |    3 | Sayali | D-Pharm     |
+|    3 | Sakshi | Java    |    4 | Om     | CA          |
+|    2 | Shruti | Java    |    4 | Om     | CA          |
+|    1 | Yash   | Java    |    4 | Om     | CA          |
++------+--------+---------+------+--------+-------------+
+12 rows in set, 1 warning (0.15 sec)
+
+mysql> select * from officersdb cross join studentdb;
++------+--------+---------+------+--------+-------------+
+| o_id | o_name | address | s_id | s_name | course_name |
++------+--------+---------+------+--------+-------------+
+|    3 | Sakshi | Java    |    1 | sejal  | Engineering |
+|    2 | Shruti | Java    |    1 | sejal  | Engineering |
+|    1 | Yash   | Java    |    1 | sejal  | Engineering |
+|    3 | Sakshi | Java    |    2 | Tejal  | B-Pharm     |
+|    2 | Shruti | Java    |    2 | Tejal  | B-Pharm     |
+|    1 | Yash   | Java    |    2 | Tejal  | B-Pharm     |
+|    3 | Sakshi | Java    |    3 | Sayali | D-Pharm     |
+|    2 | Shruti | Java    |    3 | Sayali | D-Pharm     |
+|    1 | Yash   | Java    |    3 | Sayali | D-Pharm     |
+|    3 | Sakshi | Java    |    4 | Om     | CA          |
+|    2 | Shruti | Java    |    4 | Om     | CA          |
+|    1 | Yash   | Java    |    4 | Om     | CA          |
++------+--------+---------+------+--------+-------------+
+12 rows in set (0.00 sec)
+
+mysql>
